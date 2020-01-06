@@ -25,7 +25,7 @@ import utils.EMF_Creator;
  * @author Annika
  */
 public class UserFacadeTest {
-
+    /*
     private static EntityManagerFactory emf;
     private static UserFacade facade;
 
@@ -83,5 +83,5 @@ public class UserFacadeTest {
 
     @Test
     public void negativeTestCreateUser() {
-    }
+    } */
 }
