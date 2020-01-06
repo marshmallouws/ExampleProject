@@ -62,20 +62,25 @@ public class UserFacadeTest {
         User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null);
         List<Hobby> h = new ArrayList<>();
         UserDTO exp = new UserDTO(user, h);
-        
+
         //Act
         UserDTO res = facade.createUser(exp);
-        
+
         //Assert
         assertEquals(exp.getFirstname(), res.getFirstname());
         assertEquals(exp.getDob(), res.getDob());
     }
-    
+
     @Test
-    public void testDeleteUser() {
-        
+    public void createUser2() {
+        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null);
+        List<Hobby> h = new ArrayList<>();
+        UserDTO exp = new UserDTO(user, h);
+
+        //Act
+        UserDTO res = facade.createUser(exp);
     }
-    
+
     @Test
     public void negativeTestCreateUser() {
     }
