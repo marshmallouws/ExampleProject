@@ -1,6 +1,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +31,9 @@ public class Hobby implements Serializable {
     
     @Column(name = "description")
     private String description;
+    
+    @ManyToMany(mappedBy = "hobbies")
+    private List<User> users = new ArrayList<>();
     
     public Hobby() {
     }
@@ -59,5 +65,17 @@ public class Hobby implements Serializable {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public List<User> getUsers() {
+        return users;
+    }
+    
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+    
+    public void addUsers(User user) {
+        users.add(user);
     }
 }
