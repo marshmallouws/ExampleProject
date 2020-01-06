@@ -67,7 +67,6 @@ public class UserFacadeTest {
         UserDTO res = facade.createUser(exp);
         
         //Assert
-        assertNotNull(res.getId());
         assertEquals(exp.getFirstname(), res.getFirstname());
         assertEquals(exp.getDob(), res.getDob());
     }
