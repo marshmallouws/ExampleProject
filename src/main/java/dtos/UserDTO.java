@@ -30,8 +30,28 @@ public class UserDTO {
     private Long id;
     private String password;
     private String phone;
-    private List<RoleDTO> roles;
+    private List<String> roles;
+    
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.firstname = user.getFirstName();
+        this.lastname = user.getLastname();
+        this.email = user.getEmail();
+        this.dob = user.getDateOfBirth();
+        this.password = user.getPassword();
+        this.phone = user.getPhone();
+        this.street = user.getAddress().getStreet();
+        this.additionalinfo = user.getAddress().getAdditionalInfo();
+        this.zip = user.getAddress().getCityInfo().getZip();
+        this.city = user.getAddress().getCityInfo().getCity();
+        
+        hobbies = new ArrayList<>();
+        user.getHobbies().forEach((h) -> hobbies.add(new HobbyDTO(h)));
+        
+        //roles = user.getRolesAsStrings();
+    }
 
+    /*
     public UserDTO(User p, List<Hobby> hobs, List<Role> rols) {
         this.id = p.getId();
         this.firstname = p.getFirstName();
@@ -44,7 +64,6 @@ public class UserDTO {
         this.hobbies = new ArrayList<>();
         this.roles = new ArrayList<>();
         hobs.forEach((h) -> hobbies.add(new HobbyDTO(h)));
-        rols.forEach((r) -> roles.add(new RoleDTO(r)));
     }
 
     public UserDTO(User p, List<Hobby> hobs) {
@@ -58,7 +77,7 @@ public class UserDTO {
 
         this.hobbies = new ArrayList<>();
         hobs.forEach((h) -> hobbies.add(new HobbyDTO(h)));
-    }
+    } */
 
     public String getFirstname() {
         return firstname;
@@ -119,15 +138,8 @@ public class UserDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public List<String> getRolesAsStrings() {
-        if (roles.isEmpty()) {
-            return null;
-        }
-        List<String> rolesAsStrings = new ArrayList();
-        for (RoleDTO role : roles) {
-            rolesAsStrings.add(role.getRoleName());
-        }
-        return rolesAsStrings;
+    
+    public List<String> getRoles() {
+        return roles;
     }
 }

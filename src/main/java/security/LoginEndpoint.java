@@ -48,7 +48,7 @@ public class LoginEndpoint {
 
     try {
       UserDTO user = USER_FACADE.getVerifiedUser(email, password);
-      List<String> roles = user.getRolesAsStrings();
+      List<String> roles = user.getRoles();
       JsonArray jsonRoles = new JsonArray();
       
       for(String r: roles) {

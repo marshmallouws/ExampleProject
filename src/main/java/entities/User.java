@@ -81,6 +81,9 @@ public class User implements Serializable {
     })
     @ManyToMany
     private List<Role> roles;
+    
+    @ManyToOne
+    private Address address;
 
     /*
     JPA provider needs to create instances of entity. 
@@ -90,7 +93,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, Date dob, String password, String phone, List<Hobby> hobbies) {
+    public User(String firstName, String lastName, String email, Date dob, String password, String phone, List<Hobby> hobbies, Address address) {
         this.firstName = firstName;
         this.lastname = lastName;
         this.email = email;
@@ -99,6 +102,7 @@ public class User implements Serializable {
         this.phone = phone;
         this.age = 20; // Calculate age from dob
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        this.address = address;
     }
 
     public boolean verifyPassword(String pw) {
@@ -194,5 +198,21 @@ public class User implements Serializable {
             rolesAsStrings.add(role.getRoleName());
         }
         return rolesAsStrings;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

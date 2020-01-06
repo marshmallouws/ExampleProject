@@ -1,6 +1,8 @@
 package facades;
 
 import dtos.UserDTO;
+import entities.Address;
+import entities.CityInfo;
 import entities.Hobby;
 import entities.User;
 import errorhandling.AuthenticationException;
@@ -44,6 +46,10 @@ public class UserFacade {
         return emf.createEntityManager();
     }
 
+    /*
+    If I want all tables in database i must ensure 
+    that fetch-type is eager in entities
+     */
     public List<UserDTO> getUsers() {
         EntityManager em = getEntityManager();
         List<UserDTO> res = new ArrayList<>();
@@ -51,7 +57,9 @@ public class UserFacade {
 
         TypedQuery tq = em.createQuery("SELECT u FROM User u", User.class);
         user = tq.getResultList();
-        user.forEach((u) -> res.add(new UserDTO(u, u.getHobbies(), u.getRole())));
+        user.forEach((u) -> res.add(new UserDTO(u)));
+
+        //System.out.println(res.get(0).getCity());
         return res;
     }
 
@@ -59,6 +67,16 @@ public class UserFacade {
     public UserDTO createUser(UserDTO udto) {
         EntityManager em = getEntityManager();
         List<Hobby> hobbies = new ArrayList<>();
+        CityInfo city = null;
+        
+        // Checks if given zip exists
+        try {
+            city = CityFacade.getCityFacade(emf).getCityInfo(udto.getZip());
+        } catch (NoResultException e) {
+            //throw new CityInfoNotFoundException("Given zip is not found");
+        }
+        
+        Address address = new Address(udto.getStreet(), udto.getAdditionalinfo(), city);
 
         /*
         Checking if each hobby exists in db. If it does, the persisted hobby
@@ -77,7 +95,7 @@ public class UserFacade {
 
         //Create new User from UserDTO
         User user = new User(udto.getFirstname(), udto.getLastname(), udto.getEmail(),
-                udto.getDob(), udto.getPassword(), udto.getPhone(), hobbies);
+                udto.getDob(), udto.getPassword(), udto.getPhone(), hobbies, address);
 
         try {
             em.getTransaction().begin();
@@ -87,7 +105,7 @@ public class UserFacade {
             em.close();
         }
 
-        return new UserDTO(user, hobbies);
+        return new UserDTO(user);
     }
 
     //Delete
@@ -122,7 +140,6 @@ public class UserFacade {
         try {
             changed = em.find(User.class, udto.getId());
 
-            
             changed.setFirstName(udto.getFirstname());
             changed.setLastname(udto.getLastname());
             changed.setDateOfBirth(udto.getDob());
@@ -130,7 +147,7 @@ public class UserFacade {
             changed.setEmail(udto.getEmail());
             changed.setPassword(udto.getPassword());
             changed.setPhone(udto.getPhone());
-            
+
             em.getTransaction().begin();
             em.merge(changed);
             em.getTransaction().commit();
@@ -139,41 +156,45 @@ public class UserFacade {
             em.close();
         }
 
-        return new UserDTO(changed, hobbies);
+        return new UserDTO(changed);
     }
 
     //Read
     public UserDTO getVerifiedUser(String email, String password) throws AuthenticationException {
         EntityManager em = getEntityManager();
 
-        User person;
+        User user;
         try {
             // Use TypedQuery if you get an entity
             TypedQuery<User> tq
                     = em.createQuery("SELECT p FROM Person p WHERE p.email = :email", User.class);
             tq.setParameter(":email", email);
-            person = tq.getSingleResult();
+            user = tq.getSingleResult();
 
-            if (person == null || !person.verifyPassword(password)) {
+            if (user == null || !user.verifyPassword(password)) {
                 throw new AuthenticationException("Invalid user name or password");
             }
         } finally {
             em.close();
         }
 
-        return new UserDTO(person, person.getHobbies());
+        return new UserDTO(user);
     }
-    
-    /*
+
     public static void main(String[] args) {
         EntityManagerFactory emf2 = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+        //getUserFacade(emf2).getUsers();
+
         List<Hobby> h = new ArrayList<>();
         h.add(new Hobby("Ridning", "Somethigbn"));
         h.add(new Hobby("Dykning", "Hajer er da meget søde"));
+        
+        Address address = new Address("Sømoseparken", "80", new CityInfo(2750, "Ballerup"));
 
-        User u = new User("Andersine", "Andersen", "annika@mail.dk", new Date(), "password", "phone", h);
+        User u = new User("Andersine", "Andersen", "annika@mail.dk", new Date(), "password", "phone", h, address);
         u.setId(4L);
-        UserDTO u2 = new UserDTO(u, h);
-        getUserFacade(emf2).updateUser(u2);
-    } */
+        UserDTO u2 = new UserDTO(u);
+        getUserFacade(emf2).createUser(u2);
+
+    }
 }

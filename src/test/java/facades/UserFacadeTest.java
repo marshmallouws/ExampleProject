@@ -47,8 +47,8 @@ public class UserFacadeTest {
             em.getTransaction().commit();
 
             em.getTransaction().begin();
-            em.persist(new User("Annika", "Ehlers", "mail", new Date(), "Unicorn", "1234", new ArrayList<Hobby>()));
-            em.persist(new User("Peter", "Bom", "mail", new Date(), "Peter", "1234", new ArrayList<Hobby>()));
+            em.persist(new User("Annika", "Ehlers", "mail", new Date(), "Unicorn", "1234", new ArrayList<Hobby>(), null));
+            em.persist(new User("Peter", "Bom", "mail", new Date(), "Peter", "1234", new ArrayList<Hobby>(), null));
             em.getTransaction().commit();
 
         } finally {
@@ -59,9 +59,9 @@ public class UserFacadeTest {
     @Test
     public void testCreateUser() {
         //Arrange
-        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null);
+        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
         List<Hobby> h = new ArrayList<>();
-        UserDTO exp = new UserDTO(user, h);
+        UserDTO exp = new UserDTO(user);
 
         //Act
         UserDTO res = facade.createUser(exp);
@@ -73,9 +73,9 @@ public class UserFacadeTest {
 
     @Test
     public void createUser2() {
-        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null);
+        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
         List<Hobby> h = new ArrayList<>();
-        UserDTO exp = new UserDTO(user, h);
+        UserDTO exp = new UserDTO(user);
 
         //Act
         UserDTO res = facade.createUser(exp);

@@ -5,13 +5,19 @@
  */
 package devdata;
 
+import entities.CityInfo;
 import java.util.HashMap;
+import java.util.Map;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import utils.EMF_Creator;
 
 /**
  *
  * @author Annika
  */
 public class Zip {
+
     private static String s = "1301 København K\n"
             + "2000 Frederiksberg\n"
             + "2100 København Ø\n"
@@ -594,6 +600,7 @@ public class Zip {
             + "9990 Skagen";
 
     public static HashMap<Integer, String> zipcodes = new HashMap<>();
+
     /**
      * Initializing the zip code HashMap at compile time
      */
@@ -604,4 +611,17 @@ public class Zip {
             zipcodes.put(Integer.parseInt(tmp[0]), tmp[1]);
         }
     }
+
+    /*
+    public static void main(String[] args) {
+        EntityManagerFactory emf2 = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+        EntityManager em = emf2.createEntityManager();
+        em.getTransaction().begin();
+        for(Map.Entry<Integer, String> z: Zip.zipcodes.entrySet()) {
+            CityInfo inf = new CityInfo(z.getKey(), z.getValue());
+            em.persist(inf);
+        }
+        em.getTransaction().commit();
+    } 
+     */
 }
