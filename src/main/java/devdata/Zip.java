@@ -17,6 +17,16 @@ import utils.EMF_Creator;
  * @author Annika
  */
 public class Zip {
+//    public static void main(String[] args) {
+//        EntityManagerFactory emf2 = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
+//        EntityManager em = emf2.createEntityManager();
+//        em.getTransaction().begin();
+//        for(Map.Entry<Integer, String> z: Zip.zipcodes.entrySet()) {
+//            CityInfo inf = new CityInfo(z.getKey(), z.getValue());
+//            em.persist(inf);
+//        }
+//        em.getTransaction().commit();
+//    }
 
     private static String s = "1301 København K\n"
             + "2000 Frederiksberg\n"
@@ -598,7 +608,7 @@ public class Zip {
             + "9981 Jerup\n"
             + "9982 Ålbæk\n"
             + "9990 Skagen";
-
+    
     public static HashMap<Integer, String> zipcodes = new HashMap<>();
 
     /**
@@ -611,17 +621,4 @@ public class Zip {
             zipcodes.put(Integer.parseInt(tmp[0]), tmp[1]);
         }
     }
-
-    /*
-    public static void main(String[] args) {
-        EntityManagerFactory emf2 = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
-        EntityManager em = emf2.createEntityManager();
-        em.getTransaction().begin();
-        for(Map.Entry<Integer, String> z: Zip.zipcodes.entrySet()) {
-            CityInfo inf = new CityInfo(z.getKey(), z.getValue());
-            em.persist(inf);
-        }
-        em.getTransaction().commit();
-    } 
-     */
 }

@@ -6,9 +6,9 @@
 package facades;
 
 import dtos.HobbyDTO;
-import dtos.UserDTO;
+import dtos.PersonDTO;
 import entities.Hobby;
-import entities.User;
+import entities.Person;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,12 +43,12 @@ public class UserFacadeTest {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("User.deleteAllRows").executeUpdate();
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
             em.getTransaction().commit();
 
             em.getTransaction().begin();
-            em.persist(new User("Annika", "Ehlers", "mail", new Date(), "Unicorn", "1234", new ArrayList<Hobby>(), null));
-            em.persist(new User("Peter", "Bom", "mail", new Date(), "Peter", "1234", new ArrayList<Hobby>(), null));
+            em.persist(new Person("Annika", "Ehlers", "mail", new Date(), "Unicorn", "1234", new ArrayList<Hobby>(), null));
+            em.persist(new Person("Peter", "Bom", "mail", new Date(), "Peter", "1234", new ArrayList<Hobby>(), null));
             em.getTransaction().commit();
 
         } finally {
@@ -59,12 +59,12 @@ public class UserFacadeTest {
     @Test
     public void testCreateUser() {
         //Arrange
-        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
+        Person user = new Person("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
         List<Hobby> h = new ArrayList<>();
-        UserDTO exp = new UserDTO(user);
+        PersonDTO exp = new PersonDTO(user);
 
         //Act
-        UserDTO res = facade.createUser(exp);
+        PersonDTO res = facade.createUser(exp);
 
         //Assert
         assertEquals(exp.getFirstname(), res.getFirstname());
@@ -73,12 +73,12 @@ public class UserFacadeTest {
 
     @Test
     public void createUser2() {
-        User user = new User("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
+        Person user = new Person("Jens", "Jensen", "jens@mail.dk", new Date(), "jens", "1234", null, null);
         List<Hobby> h = new ArrayList<>();
-        UserDTO exp = new UserDTO(user);
+        PersonDTO exp = new PersonDTO(user);
 
         //Act
-        UserDTO res = facade.createUser(exp);
+        PersonDTO res = facade.createUser(exp);
     }
 
     @Test

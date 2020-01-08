@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,9 +34,9 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Annika
  */
 @Entity
-@Table(name = "users")
-@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User")
-public class User implements Serializable {
+@Table(name = "person")
+@NamedQuery(name = "Person.deleteAllRows", query = "DELETE FROM Person")
+public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,7 +45,7 @@ public class User implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "email")
+    @Column(name = "email", unique = true) //Used for login therefore unique
     private String email;
 
     @NotNull
@@ -57,7 +58,7 @@ public class User implements Serializable {
 
     // Could be TIME or TIMESTAMP
     @Column(name = "dob")
-    @Temporal(DATE)
+    @Temporal(DATE /*TIME | TIMESTAMP*/)
     @NotNull
     private Date dateOfBirth;
 
@@ -72,11 +73,14 @@ public class User implements Serializable {
     @Column(name = "phone")
     private String phone;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    /*
+    Eager fetch to ensure that hobbies are always fetched when user is fetched
+    */
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private List<Hobby> hobbies = new ArrayList<>();
 
-    @JoinTable(name = "user_roles", joinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {
+    @JoinTable(name = "person_roles", joinColumns = {
+        @JoinColumn(name = "p_id", referencedColumnName = "id")}, inverseJoinColumns = {
         @JoinColumn(name = "role_name", referencedColumnName = "role_name")
     })
     @ManyToMany
@@ -90,10 +94,10 @@ public class User implements Serializable {
     If class would contain only constructor which takes arbitrary 
     arguments, JPA provider cannot figure out values for those arguments.
      */
-    public User() {
+    public Person() {
     }
 
-    public User(String firstName, String lastName, String email, Date dob, String password, String phone, List<Hobby> hobbies, Address address) {
+    public Person(String firstName, String lastName, String email, Date dob, String password, String phone, List<Hobby> hobbies, Address address) {
         this.firstName = firstName;
         this.lastname = lastName;
         this.email = email;

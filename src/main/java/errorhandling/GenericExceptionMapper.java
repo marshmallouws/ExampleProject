@@ -28,7 +28,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
             err = new ExceptionDTO(type.getStatusCode(), ((WebApplicationException) ex).getMessage());
         } else {
 
-            err = new ExceptionDTO(type.getStatusCode(), type.getReasonPhrase());
+            err = new ExceptionDTO(type.getStatusCode(), type.getReasonPhrase(), ex.getMessage());
         }
         return Response.status(type.getStatusCode())
                 .entity(gson.toJson(err))

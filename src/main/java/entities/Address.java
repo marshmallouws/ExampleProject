@@ -43,7 +43,7 @@ public class Address implements Serializable {
     private CityInfo cityInfo;
     
     @OneToMany(mappedBy = "address")
-    private List<User> users;
+    private List<Person> person;
     
     public Address() {}
     
@@ -91,11 +91,11 @@ public class Address implements Serializable {
         this.cityInfo = c;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getUsers() {
+        return person;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(List<Person> users) {
+        this.person = users;
     }   
 }

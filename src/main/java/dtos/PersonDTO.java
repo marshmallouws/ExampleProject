@@ -7,7 +7,7 @@ package dtos;
 
 import entities.Hobby;
 import entities.Role;
-import entities.User;
+import entities.Person;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Bitten
  */
-public class UserDTO {
+public class PersonDTO {
 
     private String firstname;
     private String lastname;
@@ -32,52 +32,67 @@ public class UserDTO {
     private String phone;
     private List<String> roles;
     
-    public UserDTO(User user) {
-        this.id = user.getId();
-        this.firstname = user.getFirstName();
-        this.lastname = user.getLastname();
-        this.email = user.getEmail();
-        this.dob = user.getDateOfBirth();
-        this.password = user.getPassword();
-        this.phone = user.getPhone();
-        this.street = user.getAddress().getStreet();
-        this.additionalinfo = user.getAddress().getAdditionalInfo();
-        this.zip = user.getAddress().getCityInfo().getZip();
-        this.city = user.getAddress().getCityInfo().getCity();
+    public PersonDTO(Person person) {
+        this.id = person.getId();
+        this.firstname = person.getFirstName();
+        this.lastname = person.getLastname();
+        this.email = person.getEmail();
+        this.dob = person.getDateOfBirth();
+        this.password = person.getPassword();
+        this.phone = person.getPhone();
+        this.street = person.getAddress().getStreet();
+        this.additionalinfo = person.getAddress().getAdditionalInfo();
+        this.zip = person.getAddress().getCityInfo().getZip();
+        this.city = person.getAddress().getCityInfo().getCity();
         
         hobbies = new ArrayList<>();
-        user.getHobbies().forEach((h) -> hobbies.add(new HobbyDTO(h)));
+        person.getHobbies().forEach((h) -> hobbies.add(new HobbyDTO(h)));
         
         //roles = user.getRolesAsStrings();
     }
+    
+    // Default constructor used by Gson library to convert Json to Object
+    public PersonDTO() {}
 
-    /*
-    public UserDTO(User p, List<Hobby> hobs, List<Role> rols) {
-        this.id = p.getId();
-        this.firstname = p.getFirstName();
-        this.lastname = p.getLastname();
-        this.email = p.getEmail();
-        this.dob = p.getDateOfBirth();
-        this.password = p.getPassword();
-        this.phone = p.getPhone();
-
-        this.hobbies = new ArrayList<>();
-        this.roles = new ArrayList<>();
-        hobs.forEach((h) -> hobbies.add(new HobbyDTO(h)));
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public UserDTO(User p, List<Hobby> hobs) {
-        this.id = p.getId();
-        this.firstname = p.getFirstName();
-        this.lastname = p.getLastname();
-        this.email = p.getEmail();
-        this.dob = p.getDateOfBirth();
-        this.password = p.getPassword();
-        this.phone = p.getPhone();
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 
-        this.hobbies = new ArrayList<>();
-        hobs.forEach((h) -> hobbies.add(new HobbyDTO(h)));
-    } */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setAdditionalinfo(String additionalinfo) {
+        this.additionalinfo = additionalinfo;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setZip(int zip) {
+        this.zip = zip;
+    }
+
+    public void setHobbies(List<HobbyDTO> hobbies) {
+        this.hobbies = hobbies;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public String getFirstname() {
         return firstname;

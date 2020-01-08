@@ -4,11 +4,11 @@
   <persistence-unit name="pu" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>entities.Hobby</class>
-    <class>entities.User</class>
     <class>entities.Address</class>
     <class>entities.CityInfo</class>
     <class>dtos.AddressDTO</class>
     <class>facades.CityFacade</class>
+    <class>entities.Person</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <!-- DO NOT remove the line below. It's not set by the  entityUtils.EMF_Creator -->

@@ -33,7 +33,7 @@ public class Hobby implements Serializable {
     private String description;
     
     @ManyToMany(mappedBy = "hobbies")
-    private List<User> users = new ArrayList<>();
+    private List<Person> person = new ArrayList<>();
     
     public Hobby() {
     }
@@ -67,15 +67,15 @@ public class Hobby implements Serializable {
         this.description = description;
     }
     
-    public List<User> getUsers() {
-        return users;
+    public List<Person> getUsers() {
+        return person;
     }
     
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(List<Person> users) {
+        this.person = users;
     }
     
-    public void addUsers(User user) {
-        users.add(user);
+    public void addUsers(Person user) {
+        person.add(user);
     }
 }

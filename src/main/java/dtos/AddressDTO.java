@@ -23,6 +23,8 @@ public class AddressDTO {
         this.city = address.getCityInfo().getCity();
         this.zip = address.getCityInfo().getZip();
     }
+    
+    public AddressDTO() {}
 
     public String getStreet() {
         return street;

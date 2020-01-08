@@ -18,6 +18,8 @@ public class RoleDTO {
         this.roleName = roleName;
     }
     
+    public RoleDTO() {}
+    
     public RoleDTO(Role role) {
         this.roleName = role.getRoleName();
     }
